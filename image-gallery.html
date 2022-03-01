@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>360&deg; Image Gallery</title>
+    <meta name="description" content="360&deg; Image Gallery - A-Frame" />
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+    <!-- Image link template to be reused. -->
+    <!-- 2nd block: a-box mosueenter -->
+    <script id="link" type="text/html">
+      <a-entity
+        class="link"
+        geometry="primitive: box; height: 1; width: 1"
+        material="shader: flat; src: ${thumb}"
+        event-set__mouseenter="scale: 1.2 1.2 1"
+        event-set__mouseleave="scale: 1 1 1"
+        event-set__click="_target: #image-360; _delay: 300; material.src: ${src}"
+        proxy-event="event: click; to: #image-360; as: fade"
+        sound="on: click; src: #click-sound"
+      ></a-entity>
+    </script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <img
+          id="city-thumb"
+          crossorigin="anonymous"
+          src="/assets/thumb-city.jpg"
+        />
+        <img
+          id="cubes-thumb"
+          crossorigin="anonymous"
+          src="/assets/thumb-cubes.jpg"
+        />
+        <img
+          id="sechelt-thumb"
+          crossorigin="anonymous"
+          src="/assets/thumb-sechelt.jpg"
+        />
+        <img
+          id="miami-thumb"
+          crossorigin="anonymous"
+          src="/assets/8f199dca-ff07-4ab0-9e3d-ddf591d66fc8_thumb-miami.jpg"
+        />
+        <img id="city" crossorigin="anonymous" src="/assets/city.jpg" />
+        <img id="cubes" crossorigin="anonymous" src="/assets/cubes.jpg" />
+        <img id="sechelt" crossorigin="anonymous" src="/assets/sechelt.jpg" />
+        <img
+          id="miami"
+          crossorigin="anonymous"
+          src="/assets/8f199dca-ff07-4ab0-9e3d-ddf591d66fc8_thumbnails_miami.jpg"
+        />
+        <img
+          id="garfield"
+          crossorigin="anonymous"
+          src="/assets/8f199dca-ff07-4ab0-9e3d-ddf591d66fc8_thumbnails_garfield.jpg"
+        />
+        <audio
+          id="click-sound"
+          crossorigin="anonymous"
+          src="/assets/audio/click.ogg"
+        ></audio>
+      </a-assets>
+
+      <!-- 360-degree image. -->
+      <a-sky
+        id="image-360"
+        radius="10"
+        src="#city"
+        animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
+        animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"
+      ></a-sky>
+
+      <!-- Image links. -->
+      <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
+        <a-entity
+          template="src: #link"
+          data-src="#cubes"
+          data-thumb="#cubes-thumb"
+        ></a-entity>
+        <a-entity
+          template="src: #link"
+          data-src="#city"
+          data-thumb="#city-thumb"
+        ></a-entity>
+        <a-entity
+          template="src: #link"
+          data-src="#sechelt"
+          data-thumb="#sechelt-thumb"
+        ></a-entity>
+        <a-entity
+          template="src: #link"
+          data-src="#miami"
+          data-thumb="#miami-thumb"
+        ></a-entity>
+      </a-entity>
+      <a-entity
+        layout="type: line; margin: 5"
+        position="1 -2 -5"
+        template="src: #link"
+        data-src="#garfield"
+        data-thumb="#garfield"
+        onclick="location.href='new_world.html'"
+      ></a-entity>
+      <a-entity
+        id="cat2"
+        layout="margin: 1.5"
+        position="-8 3 -2"
+        rotation="0 45 45"
+        scale="2 2 2"
+        animation="property: object3D.position.y; to: -5.3; dir: alternate; dur: 1000; loop: true"
+        template="src: #link"
+        data-src="#garfield"
+        data-thumb="#garfield"
+        onclick="location.href='http://
+         localhost:8158'"
+      ></a-entity>
+      <a-box
+        id="cat"
+        layout="type: line; margin: 5"
+        position="-8 -2 -3"
+        rotation="65 22 13"
+        scale="2 2 2"
+        geometry="primitive: plane;"
+        src="#garfield"
+        data-thumb="#miami-thumb"
+      ></a-box>
+
+      <!-- Camera + cursor. -->
+      <a-entity camera look-controls>
+        <a-cursor
+          id="cursor"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__mouseenter="_event: mouseenter; color: springgreen"
+          event-set__mouseleave="_event: mouseleave; color: black"
+          raycaster="objects: .link"
+        ></a-cursor>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
