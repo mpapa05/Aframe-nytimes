@@ -74,7 +74,7 @@ captionElement.addEventListener('click', () => captionElement.classList.toggle('
 // See here for more options: https://github.com/nytimes/three-loader-3dtiles/blob/dev/docs/three-loader-3dtiles.loaderprops.md
 Loader3DTiles.load(
   {
-    url: 'https://storage.googleapis.com/rd-big-files/tilesets/ONA360/TILESET/0731_FREEMAN_ALLEY_10M_A_36x8K__10K-PN_50P_DB/tileset_tileset.json',
+    url: '/examples/raysmith/tileset_tileset.json',
     renderer: renderer,
     options: {
       dracoDecoderPath: 'https://unpkg.com/three@0.129.0/examples/js/libs/draco',
